@@ -57,56 +57,53 @@ if __name__ == "__main__":
     USE_CLOUD_RUN = True  # ← PRODUCTION mode ON
 
     if USE_CLOUD_RUN:
-        # ✅ Correct production Cloud Run URL
-        base_url = "https://email-link-fastapi-1068809376566.us-central1.run.app"
+        # ✅ Replace with your actual deployed Cloud Run URL
+        base_url = "https://your-cloud-run-url.run.app"
     else:
-        # Localhost URL for testing
+        # Localhost for development/testing
         port = int(os.environ.get("PORT", 8181))
         base_url = f"http://127.0.0.1:{port}"
 
     decryption_page_url = f"{base_url}/decrypt_link?encrypted={encrypted_link}"
     print(f"\nSend this link to decrypt the file:\n{decryption_page_url}")
 
-    # ========== EMAIL SENDING ==========
-    sender_email = "trinabshan06@gmail.com"
-    receiver_email = "trinabtime@gmail.com"
-    password = "yhcq gspr pnal rlfu"  # App Password
+    # ========== EMAIL SENDING (Edit your message & credentials here) ==========
+
+    sender_email = "your_email@gmail.com"  # 🔒 Replace with your Gmail
+    receiver_email = "recipient_email@example.com"  # 🔒 Replace with recipient's email
+    password = "your_app_password"  # 🔒 Use environment variables or secrets in production
 
     message = MIMEMultipart("alternative")
     message["Subject"] = "Encrypted Google Drive Link"
     message["From"] = sender_email
     message["To"] = receiver_email
 
+    # 📝 Replace this text with your actual email content
     text = f"""
-Hello Kiruba mama,
+Hello,
 
-I’ve created an encrypted Google Drive file link and deployed a secure decryption service.
+This is your encrypted file link.
 
-To view the file:
-
-🔓 Decryption Page:
+Decryption Page:
 {decryption_page_url}
 
-When prompted, enter the decryption key below:
-🔐 Decryption Key: {custom_key_input}
+Decryption Key: {custom_key_input}
 
-The decryption key is the number code for the word "Sorry".
+You can update this email body to suit your needs.
 
-Once the key is entered, the page will decrypt the original Google Drive link and allow you to access the file directly.
-
-Thank you,
-Trinab Shan
+Thank you.
 """
     part = MIMEText(text, "plain")
     message.attach(part)
+
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
             server.login(sender_email, password)
             server.sendmail(sender_email, receiver_email, message.as_string())
-            print("Email sent successfully!")
+            print("✅ Email sent successfully!")
     except Exception as e:
-        print(f"An error occurred while sending the email: {e}")
+        print(f"❌ An error occurred while sending the email: {e}")
 
-    # Show link for manual testing (again)
+    # Manual testing reminder
     print(f"\n🔗 Open this URL in your browser to decrypt manually:")
     print(decryption_page_url)
