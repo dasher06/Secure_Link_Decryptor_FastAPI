@@ -175,10 +175,11 @@ This approach has proven to be the most **effective**. The server is live 24/7, 
 
 ## Acknowledgements
 
-Thanks to my uncles **Kiru Veerappan** and **Udhayan Nagarajan** for their encouragement and support.
+Thanks to my uncles **Kiru Veerappan** and **Udhayan Nagarajan** for their encouragement and support throughout the whole project.
 
 ---
 
 Created by **Trinab Shan**  
 GitHub: [@dasher06](https://github.com/dasher06)
+
 
