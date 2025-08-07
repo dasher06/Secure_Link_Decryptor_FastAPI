@@ -1,6 +1,6 @@
 # Secure GDrive Link Encryptor and Decryptor (FastAPI Version)
 
-This project helps you to securely share **Google Drive files** by encrypting the file link using a **10-digit password**. The encrypted link is shared with recipient, and they can decrypt it using a simple web interface.
+This project helps you to securely share **Google Drive files** by encrypting the file link using a **10-digit password**. The encrypted link is shared with recipient, and they can decrypt it using a simple **web interface**.
 
 This version is built using **FastAPI**, replacing the earlier version that used **Flask**.
 
@@ -34,9 +34,9 @@ For the **Flask** version you can visit:
 
 ---
 
-## How to Deploy to Google Cloud Run
+## How to Deploy on Google Cloud Run
 
-1. **Create a Google Cloud Project** and enable:
+1. Create a **Google Cloud Project** and enable:
    - Cloud Run
    - Cloud Build
    - Artifact Registry
@@ -77,7 +77,7 @@ Share this URL along with the password.
 
 ### 1. Localhost (Basic Testing)
 
-Initially, I ran the Python Flask application locally on my machine for basic testing.
+Initially, I ran the Python application locally on my machine for basic testing.
 
 I opened a terminal and executed:
 ```bash
@@ -132,9 +132,9 @@ Even though this made the application publicly available 24/7, the deployment co
 
 Currently, the project is deployed on **Google Cloud Platform (GCP)** using **Cloud Run**, specifically to avoid the **code alterations** that occurred with **Render**.
 
-I created a **Dockerfile** for the FastAPI app, but used the gcloud CLI to build and deploy it via **Google Cloud Build**, which handled the **containerization** automatically.
+I created a **Dockerfile** for the FastAPI app, but used the **gcloud CLI** to build and deploy it via **Google Cloud Build**, which handled the **containerization** automatically.
 
-Here’s a sample live deployment link (accessible at the time of writing):
+Here’s a sample live deployment link that opens a google drive file saying **HELLO!** as an example:
 
 🔓 Decryption Page:
 
@@ -181,5 +181,6 @@ Thanks to my uncles **Kiru Veerappan** and **Udhayan Nagarajan** for their encou
 
 Created by **Trinab Shan**  
 GitHub: [@dasher06](https://github.com/dasher06)
+
 
 
