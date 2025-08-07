@@ -1,176 +1,183 @@
-# Secure GDrive Link Encryptor and Decryptor
+# Secure GDrive Link Encryptor and Decryptor (FastAPI Version)
 
-This is a simple project I built to share **Google Drive files** in a secure way. Instead of just sending someone a direct link to a file, this app **encrypts** the link using a **10-digit password** that only the sender and receiver know. 
+This project helps you to securely share **Google Drive files** by encrypting the file link using a **10-digit password**. The encrypted link is shared with recipient, and they can decrypt it using a simple web interface.
 
-The receiver can then use that password on a web page to unlock and access the file.
+This version is built using **FastAPI**, replacing the earlier version that used **Flask**.
 
----
-
-## How to Run the Project
-
-### Here’s how you can run this project on your local machine:
-
-1. Clone the repo to your computer
-2. Install the required Python packages using `pip install -r requirements.txt`
-3. Go to **Google Cloud** :
-   - Create a new project
-   - Enable the Google Drive API
-   - Configure the OAuth Consent Screen
-   - Create OAuth Client ID credentials
-   - Download the `client_secrets.json` file and place it in the root folder
-   - Run the script using `python Encrypted_Link.py`
-
-4. A browser window will open to authenticate your **Google Drive**
-   - Once authenticated, a list of your Drive files will appear in the terminal
-   - Choose a file by entering its number
-   - Enter a 10-digit password (this is your custom encryption key)
-
-5. The script:
-   - Gives public permission to the file
-   - Encrypts the file link using your password
-   - Sends an email with a special decryption page and password
-   - The receiver opens the link, enters the password, and gets the original file
-
-### How to Deploy on Google Cloud Run
-
-1. Here's how to deploy the app using Cloud Run:
-   - Make sure you have a Google Cloud project set up
-   - Enable the **Cloud Run**, **Cloud Build**, and **Artifact Registry APIs**
-   - Install and set up the Google Cloud CLI
-   - Authenticate with: `gcloud auth login`
-   - Make sure your project is selected: `gcloud config set project [PROJECT_ID]`
-
-2. In your project folder, run:
-   - `gcloud builds submit --tag gcr.io/[PROJECT_ID]/secure-gdrive`
-
-3. Deploy to Cloud Run with:
-   - `gcloud run deploy secure-gdrive --image gcr.io/[PROJECT_ID]/secure-gdrive --platform managed --region [YOUR_REGION] --allow-unauthenticated`
-
-4. After deployment, you’ll get a public URL like:
-   - https://secure-gdrive-[random].run.app
-
-**Share this URL with the encrypted query string for access**
-
-## How the project works?
-
-1. You select a file from your **Google Drive**.
-2. The app gives that file public permissions so that anyone with the link can view or edit it.
-3. You choose a 10-digit number as a password.
-4. The link gets encrypted using that password.
-5. An email is sent to someone with:
-   - A secure page link (where they can decrypt the file)
-   - The password needed to unlock it
-6. The receiver visits the link, enters the password, and gets the original **Google Drive file**.
+For the **Flask** version you can visit:  
+- https://github.com/dasher06/Secure_Gdrive_File
 
 ---
 
-## How I ran the project (deployment steps)
+## How to Run the Project Locally
 
-### 1. Localhost (basic testing)
+### Steps
 
-At first, I just ran the Python Flask app on my own computer. I opened a terminal and ran:
+1. **Clone this repository**:
+   ```bash
+   git clone https://github.com/your-username/Secure_Link_Decryptor_FastAPI.git
+   cd Secure_Link_Decryptor_FastAPI
+   ```
 
-python Encrypted_Link.py
+2. **Install the required Python packages**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Start the FastAPI server**:
+   ```bash
+   uvicorn decrypt_api:app --reload
+   ```
+
+4. **Open in browser**:
+   - Go to [http://127.0.0.1:8000/decrypt_link](http://127.0.0.1:8000/decrypt_link)
+
+---
+
+## How to Deploy to Google Cloud Run
+
+1. **Create a Google Cloud Project** and enable:
+   - Cloud Run
+   - Cloud Build
+   - Artifact Registry
+
+2. **Install Google Cloud CLI** and log in:
+   ```bash
+   gcloud auth login
+   gcloud config set project [PROJECT_ID]
+   ```
+
+3. **Submit your app for deployment**:
+   ```bash
+   gcloud builds submit --tag gcr.io/[PROJECT_ID]/secure-gdrive-fastapi
+   gcloud run deploy secure-gdrive-fastapi \
+       --image gcr.io/[PROJECT_ID]/secure-gdrive-fastapi \
+       --platform managed \
+       --region [YOUR_REGION] \
+       --allow-unauthenticated
+   ```
+
+4. Once deployed, you’ll get a public link to use like this:
+   - `https://secure-gdrive-fastapi-xxxxxx.run.app/decrypt_link?encrypted=...`
+
+Share this URL along with the password.
+
+---
+
+## How the Project Works
+
+1. You take a **Google Drive file link** and encrypt it with a **10-digit password**.
+2. You share the **encrypted string** using a URL.
+3. The recipient visits the **decryption page**, pastes the encrypted string, and types in the password.
+4. If correct, the original **Google Drive link** is revealed.
+
+---
+
+## How I Ran the Project (Deployment Steps)
+
+### 1. Localhost (Basic Testing)
+
+Initially, I ran the Python Flask application locally on my machine for basic testing.
+
+I opened a terminal and executed:
+```bash
+uvicorn decrypt_api:app --reload
+```
 
 This started the web server at:
 
-http://127.0.0.1:5000/decrypt_link
+- `http://127.0.0.1:5000/decrypt_link`
 
-This worked fine for testing, but only I could access it since it was local.
+This setup was sufficient for local testing, but access was limited to my machine only.
 
 ---
 
-### 2. Ngrok (making it temporarily public)
+### 2. Ngrok (Temporary Public Access)
 
-To let someone else access it over the internet, I used ngrok. After installing it, I ran:
+To enable temporary **public access**, I used **ngrok**.
 
+After installing it, I ran the following command:
+```bash
 ngrok http 5000
+```
 
-Ngrok gave me a public URL (This links do not work right now!):
+**Ngrok** provided a public-facing URL **(please note: these links are no longer active)**:
 
-https://secure-decryptor-1068809376566.us-central1.run.app/decrypt_link?encrypted=gAAAAABoV_6h-28TYpIJehShsPnfESGRAaXWLMhSsXC1kfINaxaL-4dPT1Lsuba7OSvJgk0U5XgpXLmKuAXPBqmA6ap5m-MH_66UW9HMQ117N1HHpWDRmuPTJxCwfYj0bTX_uW1CsfHr8nXQo_Vm6_1rvn4NWvOwYpBj92HyepVK4PC_rDYZ6J8=
+- `https://secure-decryptor-1068809376566.us-central1.run.app/decrypt_link?encrypted=gAAAAABoV_6h-28TYpIJehShsPnfESGRAaXWLMhSsXC1kfINaxaL-4dPT1Lsuba7OSvJgk0U5XgpXLmKuAXPBqmA6ap5m-MH_66UW9HMQ117N1HHpWDRmuPTJxCwfYj0bTX_uW1CsfHr8nXQo_Vm6_1rvn4NWvOwYpBj92HyepVK4PC_rDYZ6J8=`
 
-Now, anyone with that link could open the web page. But, the program terminal from my end should be active and also the cert is not signed by a valid authority.
 
----
+This allowed anyone with the link to access the web page. 
 
-### 3. Render (permanent public access)
-
-I later deployed the app on Render.com, which is a free hosting service for web apps to make it permanent.
-
-I pushed my code to GitHub, connected the GitHub repo to Render.
-
-It was fine but there was too much code alteration and my original code was changed so much including the o/p. But Render built the app and gave me a live URL
-
-Something like (This link do not work right now!):
-
-https://encryptedlinkapp.onrender.com/decrypt_link?encrypted=gAAAAABoVWml-d0XY_H9foOHshdv4WE11_l7Bony0O2AGPYcKtF2UfE49_8yMbcEyJKKtv8W1KnRuDOF47_hP-oMBWQqYlf4bLy-nicouNw_IT5HVfU3dBHimdZ9KrW5CgEczV3GA3CK86yHihpxrrjmjz4pR83AFQ==
-
-This made the app available 24/7 without needing to keep my computer on.
+However, my local terminal had to remain active, and the HTTPS certificate provided by ngrok was self-signed, which may trigger browser security warnings.
 
 ---
 
-### 4. Google Cloud Platform (current attempt)
+### 3. Render (Permanent Public Access)
 
-Right now, the project is deployed on Google Cloud Platform (GCP) using Cloud Run because, I don't want code alteration like render. I created a Dockerfile for the app, built the container, and deployed it using the gcloud command line tool.
+Later, I deployed the application to **Render.com**, a free hosting platform for web apps.
 
-This is the sample live URL on how the output looks. You can check it by clicking the link below,
+I pushed my code to GitHub and connected the repository to Render for **automatic deployment**.
+
+Although **Render** successfully built and deployed the application, it introduced significant changes to the code and output. The **original logic** was altered in several areas, which was not ideal for this project.
+
+Here’s an example of a Render-generated URL **(note: link is no longer active)**:
+
+- `https://encryptedlinkapp.onrender.com/decrypt_link?encrypted=gAAAAABoVWml-d0XY_H9foOHshdv4WE11_l7Bony0O2AGPYcKtF2UfE49_8yMbcEyJKKtv8W1KnRuDOF47_hP-oMBWQqYlf4bLy-nicouNw_IT5HVfU3dBHimdZ9KrW5CgEczV3GA3CK86yHihpxrrjmjz4pR83AFQ==`
+
+Even though this made the application publicly available 24/7, the deployment compromised the integrity of the original code.
+
+---
+
+### 4. Google Cloud Platform (Current Deployment using FastAPI)
+
+Currently, the project is deployed on **Google Cloud Platform (GCP)** using **Cloud Run**, specifically to avoid the **code alterations** that occurred with **Render**.
+
+I created a **Dockerfile** for the FastAPI app, but used the gcloud CLI to build and deploy it via **Google Cloud Build**, which handled the **containerization** automatically.
+
+Here’s a sample live deployment link (accessible at the time of writing):
 
 🔓 Decryption Page:
 
-https://email-link-encryption-1068809376566.us-central1.run.app/decrypt_link?encrypted=gAAAAABoitaIj1z0f2zVW2wLOPVAknYV76n3z_S05YRbn4DHVvDVM2tNIhVJbOMZEOfwQrtv-iimHoLpNj1aNm4Dp5zAzgvXV81ObXzt2-NfYebmagNpJcJVmCOZokJenMyKLt6B7Tm5mob7BL6D-bBpZHgmOlyuUlTimu4-NndsSZI5xaOvmtU=
+- `https://email-link-encryption-1068809376566.us-central1.run.app/decrypt_link?encrypted=gAAAAABoitaIj1z0f2zVW2wLOPVAknYV76n3z_S05YRbn4DHVvDVM2tNIhVJbOMZEOfwQrtv-iimHoLpNj1aNm4Dp5zAzgvXV81ObXzt2-NfYebmagNpJcJVmCOZokJenMyKLt6B7Tm5mob7BL6D-bBpZHgmOlyuUlTimu4-NndsSZI5xaOvmtU=`
 
-When prompted, enter the decryption key below:
+When prompted, enter the decryption key:
 
-🔐 Decryption Key: 1234567890
+🔐 Decryption Key: 
 
-Now, this makes the process easier because, the server is live 24/7 and i was able to deploy the program without any alteration and error.
+- `1234567890`
+
+This approach has proven to be the most **effective**. The server is live 24/7, and I was able to deploy the application without any **code modifications** or **runtime errors**.
 
 ---
 
 ## What's in the Project
 
-Here are the main files:
+- `decrypt_api.py`: The FastAPI application for link decryption
+- `requirements.txt`: Python packages needed to run the app
+- `templates/decrypt_link.html`: The form where users paste their encrypted link and key
+- `Dockerfile`: Helps in building the app if needed (used by Cloud Build)
+- `.dockerignore`: Prevents unnecessary files from going into the Docker image
+- `.gitignore`: Keeps sensitive or unnecessary files out of version control
 
-- `Encrypted_Link.py`: The main Python script with Flask routes and logic
-- `requirements.txt`: Lists the Python packages needed
-- `Dockerfile`: Tells Google Cloud how to build and run the app
-- `.gitignore`: Makes sure secret files and unnecessary folders (like venv) aren't uploaded
-- `templates/decrypt_link.html`: The HTML template for the decryption form
-- `.dockerignore`: Prevents specified files from being copied into Docker build context
+> Note: Although this repository contains a Dockerfile and .dockerignore, Docker was not manually used to build or run the application during deployment. Instead, Google Cloud Build automatically handled the containerization process based on the Dockerfile. This approach eliminated the need to run docker build or docker push commands locally.
+---
 
 ## Technologies Used
 
 - Python 3
-- Flask
-- Cryptography (Fernet)
-- PyDrive
-- Gmail SMTP
-- Ngrok
-- Render
-- Docker
-- Google Cloud Platform (Cloud Run)
+- FastAPI (Web framework)
+- Cryptography (For encryption and decryption)
+- Jinja2 (For HTML templates)
+- Uvicorn (Local server for FastAPI)
+- Google Cloud Platform (Deployment)
 
 ---
 
 ## Acknowledgements
 
-Special thanks to my both uncle **Kiru Veerappan** and **Udhayan Nagarajan** for encouraging and guiding me in building this project .  
+Thanks to my uncles **Kiru Veerappan** and **Udhayan Nagarajan** for their encouragement and support.
 
 ---
 
-Created by Trinab Shan
-
-GitHub: @dasher06
-
-Thank You
-
-
-
-
-
-
-
-
-
-
+Created by **Trinab Shan**  
+GitHub: [@dasher06](https://github.com/dasher06)
