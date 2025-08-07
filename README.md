@@ -118,7 +118,9 @@ Later, I deployed the application to **Render.com**, a free hosting platform for
 
 I pushed my code to GitHub and connected the repository to Render for **automatic deployment**.
 
-Although **Render** successfully built and deployed the application, it introduced significant changes to the code and output. The **original logic** was altered in several areas, which was not ideal for this project.
+Although **Render** successfully built and deployed the application:
+- It introduced significant changes to the code and output.
+- The **original logic** was altered in several areas, which was not ideal for this project.
 
 Here’s an example of a Render-generated URL **(note: link is no longer active)**:
 
@@ -181,6 +183,7 @@ Thanks to my uncles **Kiru Veerappan** and **Udhayan Nagarajan** for their encou
 
 Created by **Trinab Shan**  
 GitHub: [@dasher06](https://github.com/dasher06)
+
 
 
 
