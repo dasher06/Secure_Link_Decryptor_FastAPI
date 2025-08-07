@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+myvenv/
+
+# Environment variables and secrets
+.env
+client_secrets.json
+credentials.json
+
+# PyDrive auth storage (if generated)
+settings.yaml
+
+# VSCode and editor-specific files
+.vscode/
+.idea/
+
+# macOS & Windows system files
+.DS_Store
+Thumbs.db
+
+# Logs & backups
+*.log
+*.bak
+*.swp
+
+# Google Cloud build ignore list
+.gcloudignore
