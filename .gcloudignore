@@ -1,0 +1,13 @@
+# Ignore local-only scripts
+run_all.py
+Encrypted_Link.py
+
+# Ignore virtual envs and Python cache
+myvenv/
+venv/
+*.pyc
+__pycache__/
+
+# DO NOT ignore templates!
+!templates/
+!templates/decrypt_link.html
