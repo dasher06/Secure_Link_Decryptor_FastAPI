@@ -8,12 +8,14 @@ from cryptography.fernet import Fernet
 
 app = FastAPI()
 
+# === Template Configuration ===
 BASE_DIR = Path(__file__).resolve().parent
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
-print("TEMPLATE DIR:", BASE_DIR / "templates")
 
+# Debug prints should be disabled in production
+# print("TEMPLATE DIR:", BASE_DIR / "templates")
 
-
+# === OAuth Callback Endpoint (optional - can be removed if not used) ===
 @app.get("/", response_class=HTMLResponse)
 async def oauth_callback(request: Request):
     code = request.query_params.get("code")
@@ -21,7 +23,7 @@ async def oauth_callback(request: Request):
         return HTMLResponse(content=f"<h3>✅ OAuth Code Received:</h3><p>{code}</p>", status_code=200)
     return HTMLResponse(content="<h3>⚠️ No OAuth Code Found.</h3>", status_code=400)
 
-
+# === GET Request to Show Decryption Form ===
 @app.get("/decrypt_link", response_class=HTMLResponse)
 async def get_decrypt_link(request: Request, encrypted: str = ""):
     return templates.TemplateResponse("decrypt_link.html", {
@@ -31,7 +33,7 @@ async def get_decrypt_link(request: Request, encrypted: str = ""):
         "error": None
     })
 
-
+# === POST Request to Decrypt the Link ===
 @app.post("/decrypt_link", response_class=HTMLResponse)
 async def post_decrypt_link(
     request: Request,
@@ -49,7 +51,8 @@ async def post_decrypt_link(
             fernet = Fernet(base64.urlsafe_b64encode(custom_key))
             decrypted = fernet.decrypt(encrypted.encode()).decode()
         except Exception as e:
-            error = f"Decryption failed: {str(e)}"
+            error = "Decryption failed. Please check your key and try again."
+            # Avoid leaking internals to user: don't expose `str(e)` in production
 
     return templates.TemplateResponse("decrypt_link.html", {
         "request": request,
@@ -58,7 +61,7 @@ async def post_decrypt_link(
         "error": error
     })
 
-
+# === Health Check Endpoints ===
 @app.get("/status")
 async def status():
     return {"status": "FastAPI is working!"}
