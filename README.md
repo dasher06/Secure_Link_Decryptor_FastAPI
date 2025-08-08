@@ -30,7 +30,7 @@ For the **Flask** version you can visit:
    ```
 
 4. **Open in browser**:
-   - Go to [http://127.0.0.1:8000/decrypt_link](http://127.0.0.1:8000/decrypt_link)
+   - Go to `http://127.0.0.1:8000/decrypt_link`
 
 ---
 
@@ -183,6 +183,7 @@ Thanks to my uncles **Kiru Veerappan** and **Udhayan Nagarajan** for their encou
 
 Created by **Trinab Shan**  
 GitHub: [@dasher06](https://github.com/dasher06)
+
 
 
 
